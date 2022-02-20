@@ -48,8 +48,16 @@ class CurrentWeatherIntentHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
 
         weather = get_current_weather()
-        speak_output = weather
-        logger.info(f'weather data is:{weather}')
+        logger.info(f'The data is:{weather}')
+
+        try:
+            temp = weather['observations'][0]['uk_hybrid']['temp']
+            total_rain = weather['observations'][0]['uk_hybrid']['precipTotal']
+            wind_speed = weather['observations'][0]['uk_hybrid']['windSpeed']
+            speak_output = f'the temperature is {temp} degrees, the total rainfall for today is {total_rain} millimetres, the current wind speed is {wind_speed} kilometers per hour'
+        except KeyError:
+            logger.error('Did not get properly formatted weather data from API')
+            speak_output = 'Something went wrong getting weather data, please try again'
 
         return (
             handler_input.response_builder
