@@ -1,0 +1,46 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "chester lane farm weather",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "CurrentWeatherIntent",
+                    "slots": [],
+                    "samples": [
+                        "tell me the weather at home",
+                        "chester lane farm weather",
+                        "does craig need to bring the horses in",
+                        "weather now"
+                    ]
+                },
+                {
+                    "name": "WeatherForecastIntent",
+                    "slots": [],
+                    "samples": [
+                        "what is the weather forecast at home",
+                        "chester lane farm weather forecast",
+                        "weather forecast"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                }
+            ],
+            "types": []
+        }
+    }
+  }
+  
