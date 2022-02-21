@@ -54,6 +54,8 @@ class CurrentWeatherIntentHandler(AbstractRequestHandler):
             temp = weather['observations'][0]['uk_hybrid']['temp']
             total_rain = weather['observations'][0]['uk_hybrid']['precipTotal']
             wind_speed = weather['observations'][0]['uk_hybrid']['windSpeed']
+            # if wind chill > 4 then say it feels like....
+            # if UV index > ? say - UV index is x, best get the factor 50 out
             speak_output = f'the temperature is {temp} degrees, the total rainfall for today is {total_rain} millimetres, the current wind speed is {wind_speed} kilometers per hour'
         except KeyError:
             logger.error('Did not get properly formatted weather data from API')
@@ -177,3 +179,7 @@ sb.add_request_handler(IntentReflectorHandler()) # make sure IntentReflectorHand
 sb.add_exception_handler(CatchAllExceptionHandler())
 
 handler = sb.lambda_handler()
+
+
+# add - do i need to bring the horses in based on combination of temp and windchill
+
