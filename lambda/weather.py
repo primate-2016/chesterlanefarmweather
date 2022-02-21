@@ -14,6 +14,7 @@ from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
 from query_wunderground import get_current_weather, get_five_day_forecast
+from format_output import format_current_weather
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -47,19 +48,20 @@ class CurrentWeatherIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
 
-        weather = get_current_weather()
+        weather_data = get_current_weather()
         logger.info(f'The data is:{weather}')
+        speak_output = format_current_weather(weather_data)
 
-        try:
-            temp = weather['observations'][0]['uk_hybrid']['temp']
-            total_rain = weather['observations'][0]['uk_hybrid']['precipTotal']
-            wind_speed = weather['observations'][0]['uk_hybrid']['windSpeed']
-            # if wind chill > 4 then say it feels like....
-            # if UV index > ? say - UV index is x, best get the factor 50 out
-            speak_output = f'the temperature is {temp} degrees, the total rainfall for today is {total_rain} millimetres, the current wind speed is {wind_speed} kilometers per hour'
-        except KeyError:
-            logger.error('Did not get properly formatted weather data from API')
-            speak_output = 'Something went wrong getting weather data, please try again'
+        # try:
+        #     temp = weather['observations'][0]['uk_hybrid']['temp']
+        #     total_rain = weather['observations'][0]['uk_hybrid']['precipTotal']
+        #     wind_speed = weather['observations'][0]['uk_hybrid']['windSpeed']
+        #     # if wind chill > 4 then say it feels like....
+        #     # if UV index > ? say - UV index is x, best get the factor 50 out
+        #     speak_output = f'the temperature is {temp} degrees, the total rainfall for today is {total_rain} millimetres, the current wind speed is {wind_speed} kilometers per hour'
+        # except KeyError:
+        #     logger.error('Did not get properly formatted weather data from API')
+        #     speak_output = 'Something went wrong getting weather data, please try again'
 
         return (
             handler_input.response_builder
