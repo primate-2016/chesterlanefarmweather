@@ -42,7 +42,7 @@ def get_five_day_forecast() -> dict:
     https://docs.google.com/document/d/1_Zte7-SdOjnzBttb1-Y9e0Wgl0_3tah9dSwXUyEA3-c/edit
     '''
 
-    url = 'https://api.weather.com/v2/wx/forecast/daily/5day'
+    url = 'https://api.weather.com/v3/wx/forecast/daily/5day'
     forecast_params = {
         'geocode': f'{lat},{lon}',
         'format': 'json',
