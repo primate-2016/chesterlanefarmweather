@@ -22,7 +22,7 @@ def format_current_weather(weather_dict: dict) -> str:
         logger.error(f'Did not get properly formatted weather data from API: {e}')
         return 'Something went wrong getting weather data, please try again'
 
-    temp_comment = f'The temperature now is {temp} degrees but it feels like {int(temp) - int(wind_chill)} degrees due to wind chill' if int(wind_chill) >= 3 else f'the temperature now is {temp} degrees'
+    temp_comment = f'The temperature now is {temp} degrees but it feels like {int(temp) - int(wind_chill)} degrees due to windchill' if int(wind_chill) >= 3 else f'the temperature now is {temp} degrees'
 
     # UV index https://www.epa.gov/sites/default/files/documents/uviguide.pdf
     uv_index_comment = '. The U V index is '
