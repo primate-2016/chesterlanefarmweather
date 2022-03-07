@@ -22,10 +22,10 @@ def format_current_weather(weather_dict: dict) -> str:
         logger.error(f'Did not get properly formatted weather data from API: {e}')
         return 'Something went wrong getting weather data, please try again'
 
-    temp_comment = f'the temperature now is {temp} degrees but it feels like {int(temp) - int(wind_chill)} degrees' if int(wind_chill) >= 3 else f'the temperature now is {temp} degrees'
+    temp_comment = f'The temperature now is {temp} degrees but it feels like {int(temp) - int(wind_chill)} degrees due to wind chill' if int(wind_chill) >= 3 else f'the temperature now is {temp} degrees'
 
     # UV index https://www.epa.gov/sites/default/files/documents/uviguide.pdf
-    uv_index_comment = ', the U V index is '
+    uv_index_comment = '. The U V index is '
     if uv_index in range(0, 3):
         uv_index_comment += 'low'
     elif uv_index in range(3, 6):
@@ -39,7 +39,7 @@ def format_current_weather(weather_dict: dict) -> str:
     else:
         uv_index_comment += 'out of range'
 
-    misc_comment = f', the total rainfall today is {day_rain} millimeters, the windspeed is {wind_speed} kilometers per hour'
+    misc_comment = f'. There has been no rainfall recorded today, the windspeed is {wind_speed} kilometers per hour.' if int(day_rain) == 0.0 else f'. The total rainfall today is {day_rain} millimeters, the windspeed is {wind_speed} kilometers per hour.'
 
     output = temp_comment + uv_index_comment + misc_comment
     logger.info(f'speech output being returned is: {output}')
