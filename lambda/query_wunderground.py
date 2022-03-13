@@ -11,9 +11,6 @@ station_id = os.getenv('STATION_ID')
 lat = os.getenv('LAT')
 lon = os.getenv('LON')
 
-# https://api.weather.com/v2/pws/observations/current?stationId=KMAHANOV10&format=json&units=e&apiKey=yourApiKey
-
-
 def get_current_weather() -> dict:
     '''
     Return a dict of the current weather conditions
