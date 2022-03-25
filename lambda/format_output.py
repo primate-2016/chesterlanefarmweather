@@ -16,7 +16,7 @@ def format_current_weather(weather_dict: dict) -> str:
         day_rain = weather_dict['observations'][0]['uk_hybrid']['precipTotal']
         wind_speed = weather_dict['observations'][0]['uk_hybrid']['windSpeed']
         wind_gust = weather_dict['observations'][0]['uk_hybrid']['windGust']
-        wind_chill = weather_dict['observations'][0]['uk_hybrid']['windChill']
+        temp_with_wind_chill = weather_dict['observations'][0]['uk_hybrid']['windChill']
         uv_index = int(weather_dict['observations'][0]['uv'])
         humidity = weather_dict['observations'][0]['humidity']
 
@@ -24,7 +24,7 @@ def format_current_weather(weather_dict: dict) -> str:
         logger.error(f'Did not get properly formatted weather data from API: {e}')
         return 'Something went wrong getting weather data, please try again'
 
-    temp_comment = f'The temperature now is {temp} degrees but it feels like {int(temp) - int(wind_chill)} degrees due to windchill. ' if int(wind_chill) >= 3 else f'the temperature now is {temp} degrees. '
+    temp_comment = f'The temperature now is {temp} degrees but it feels like {temp_with_wind_chill} degrees due to wind chill. ' if int(temp) - int(temp_with_wind_chill) > 1 else f'the temperature now is {temp} degrees. '
 
     # UV index https://www.epa.gov/sites/default/files/documents/uviguide.pdf
     uv_index_comment = 'The U V index is '
