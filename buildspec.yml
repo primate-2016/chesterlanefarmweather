@@ -35,7 +35,7 @@ phases:
     # run-as: Linux-user-name
     on-failure: ABORT
     runtime-versions:
-      Python: 3.x
+      python: 3.x
     commands:
       - pip install -r ./src/requirements.txt
     #   - command
