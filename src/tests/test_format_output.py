@@ -1,5 +1,5 @@
 import pytest
-from lambda_clf_weather import format_output
+from src.format_output import format_current_weather
 
 
 def test_format_current_weather():

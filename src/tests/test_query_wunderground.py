@@ -1,5 +1,5 @@
 import pytest
-from lambda_clf_weather import query_wunderground
+from src.query_wunderground import get_current_weather
 
 
 def test_format_current_weather():
