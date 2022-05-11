@@ -55,7 +55,7 @@ phases:
     #   - command
   build:
     # run-as: Linux-user-name
-    on-failure: ABORT
+    # on-failure: ABORT
     commands:
     # put tests in build phase since if pre_build fails you won't get reports otherwise
       - echo executing unit tests
