@@ -61,9 +61,10 @@ phases:
     # https://aws.amazon.com/blogs/devops/test-reports-with-aws-codebuild/
       - echo executing unit tests
       - rm -rf ./reports && mkdir reports
-      - coverage run -m pytest --junitxml=./reports/test_results.xml
-      - echo generating coverage report
-      - coverage xml -o ./reports/coverage.xml
+      # - coverage run -m pytest --junitxml=./reports/test_results.xml
+      # - echo generating coverage report
+      # - coverage xml -o ./reports/coverage.xml
+      - pytest --junitxml=./reports/test_results.xml --cov-report xml:./reports/coverage.xml --cov
       - echo getting libs for Lambda package
       - cd ./src && pip install -r requirements.txt -t .
     # finally:
