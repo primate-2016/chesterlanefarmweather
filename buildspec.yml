@@ -45,14 +45,10 @@ phases:
     # finally:
     #   - command
     #   - command
-  pre_build:
-    # run-as: Linux-user-name
-    on-failure: ABORT
-    commands:
-      - echo executing unit tests
-      - coverage run -m pytest --junitxml=./test_results.xml
-      - echo generating coverage report
-      - coverage xml -o coverage.xml
+  # pre_build:
+  #   # run-as: Linux-user-name
+  #   on-failure: ABORT
+  #   commands:
     #   - command
     # finally:
     #   - command
@@ -61,6 +57,11 @@ phases:
     # run-as: Linux-user-name
     on-failure: ABORT
     commands:
+    # put tests in build phase since if pre_build fails you won't get reports otherwise
+      - echo executing unit tests
+      - coverage run -m pytest --junitxml=./test_results.xml
+      - echo generating coverage report
+      - coverage xml -o coverage.xml
       - echo getting libs for Lambda package
       - cd ./src && pip install -r requirements.txt -t .
     # finally:
