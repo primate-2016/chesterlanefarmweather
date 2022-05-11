@@ -8,6 +8,7 @@ version: 0.2
 env:
   shell: bash
   # variables:
+  #   MYENV_VAR: "value"
   #   key: "value"
   #   key: "value"
   # parameter-store:
@@ -37,7 +38,9 @@ phases:
     runtime-versions:
       python: 3.x
     commands:
+      - echo installing python libs
       - pip install -r ./src/requirements.txt
+      - pip install -r ./src/test_requirements.txt
     #   - command
     # finally:
     #   - command
@@ -46,20 +49,23 @@ phases:
     # run-as: Linux-user-name
     on-failure: ABORT
     commands:
-      - pytest
+      - echo executing unit tests
+      - coverage run -m pytest --junitxml=./test_results.xml
+      - echo generating coverage report
+      - coverage xml -o coverage.xml
     #   - command
     # finally:
     #   - command
     #   - command
-#   build:
-#     run-as: Linux-user-name
-#     on-failure: ABORT | CONTINUE
-#     commands:
-#       - command
-#       - command
-#     finally:
-#       - command
-#       - command
+  build:
+    # run-as: Linux-user-name
+    on-failure: ABORT
+    commands:
+      - echo getting libs for Lambda package
+      - cd ./src && pip install -r requirements.txt -t .
+    # finally:
+    #   - command
+    #   - command
 #   post_build:
 #     run-as: Linux-user-name
 #     on-failure: ABORT | CONTINUE
@@ -69,38 +75,39 @@ phases:
 #     finally:
 #       - command
 #       - command
-# reports:
-#   report-group-name-or-arn:
-#     files:
-#       - location
-#       - location
-#     base-directory: location
-#     discard-paths: no | yes
-#     file-format: report-format
-# artifacts:
-#   files:
-#     - location
-#     - location
-#   name: artifact-name
-#   discard-paths: no | yes
-#   base-directory: location
-#   exclude-paths: excluded paths
-#   enable-symlinks: no | yes
-#   s3-prefix: prefix
-#   secondary-artifacts:
-#     artifactIdentifier:
-#       files:
-#         - location
-#         - location
-#       name: secondary-artifact-name
-#       discard-paths: no | yes
-#       base-directory: location
-#     artifactIdentifier:
-#       files:
-#         - location
-#         - location
-#       discard-paths: no | yes
-#       base-directory: location
+reports:
+  pytest_reports:
+    files:
+      - './test_results.xml'
+    file-format: JUNITXML
+  cobertura-coverage-report:
+    files:
+      - './coverage.xml'
+    file-format: 'COBERTURA'
+artifacts:
+  files:
+    - './src/**/*'
+  name: package-$(date +%Y-%m-%d)
+  # artifact package type (e.g. none or zip is specified in build project)
+  discard-paths: no
+  base-directory: location
+  # exclude-paths: excluded paths
+  enable-symlinks: yes
+  s3-prefix: prefix
+  # secondary-artifacts:
+  #   artifactIdentifier:
+  #     files:
+  #       - location
+  #       - location
+  #     name: secondary-artifact-name
+  #     discard-paths: no | yes
+  #     base-directory: location
+  #   artifactIdentifier:
+  #     files:
+  #       - location
+  #       - location
+  #     discard-paths: no | yes
+  #     base-directory: location
 # cache:
 #   paths:
 #     - path
