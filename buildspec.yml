@@ -60,9 +60,10 @@ phases:
     # put tests in build phase since if pre_build fails you won't get reports otherwise
     # https://aws.amazon.com/blogs/devops/test-reports-with-aws-codebuild/
       - echo executing unit tests
-      - coverage run -m pytest --junitxml=./test_results.xml
+      - rm -rf ./reports && mkdir reports
+      - coverage run -m pytest --junitxml=./reports/test_results.xml
       - echo generating coverage report
-      - coverage xml -o coverage.xml
+      - coverage xml -o ./reports/coverage.xml
       - echo getting libs for Lambda package
       - cd ./src && pip install -r requirements.txt -t .
     # finally:
@@ -80,19 +81,21 @@ phases:
 reports:
   pytest_reports:
     files:
-      - './test_results.xml'
+      - 'test_results.xml'
     file-format: JUNITXML
+    base-directory: 'reports'
   cobertura-coverage-report:
     files:
-      - './coverage.xml'
+      - 'coverage.xml'
     file-format: 'COBERTURA'
+    base-directory: 'reports'
 artifacts:
   files:
-    - 'src/**/*'
+    - '**/*'
   name: package-$(date +%Y-%m-%d)
   # artifact package type (e.g. none or zip is specified in build project)
   discard-paths: no
-  base-directory: location
+  base-directory: 'src'
   # exclude-paths: excluded paths
   enable-symlinks: yes
   s3-prefix: prefix
