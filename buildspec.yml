@@ -88,7 +88,7 @@ reports:
     file-format: 'COBERTURA'
 artifacts:
   files:
-    - './src/**/*'
+    - 'src/**/*'
   name: package-$(date +%Y-%m-%d)
   # artifact package type (e.g. none or zip is specified in build project)
   discard-paths: no
