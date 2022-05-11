@@ -89,7 +89,7 @@ reports:
   arn:aws:codebuild:eu-west-1:413673226572:report-group/clf-build-coverage-report:
     files:
       - 'coverage.xml'
-    file-format: 'COBERTURA'
+    file-format: COBERTURA
     base-directory: 'reports'
 artifacts:
   files:
