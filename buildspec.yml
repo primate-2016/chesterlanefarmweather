@@ -79,12 +79,14 @@ phases:
 #       - command
 #       - command
 reports:
-  pytest_reports:
+  arn:aws:codebuild:eu-west-1:413673226572:report-group/clf-build-pytest_reports:
     files:
       - 'test_results.xml'
     file-format: JUNITXML
     base-directory: 'reports'
-  cobertura-coverage-report:
+  # for coverage report, have to precreate report group and use arn or report group type
+  # will default to test type rather than coverage and report won't work
+  arn:aws:codebuild:eu-west-1:413673226572:report-group/clf-build-coverage-report:
     files:
       - 'coverage.xml'
     file-format: 'COBERTURA'
@@ -92,13 +94,13 @@ reports:
 artifacts:
   files:
     - '**/*'
-  name: package-$(date +%Y-%m-%d)
+  name: clf-weather-package-$(date +%Y-%m-%d).zip
   # artifact package type (e.g. none or zip is specified in build project)
   discard-paths: no
   base-directory: 'src'
   # exclude-paths: excluded paths
   enable-symlinks: yes
-  s3-prefix: prefix
+  s3-prefix: clf-builds
   # secondary-artifacts:
   #   artifactIdentifier:
   #     files:
