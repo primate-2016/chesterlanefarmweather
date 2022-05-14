@@ -6,7 +6,7 @@ logger.setLevel(logging.INFO)
 
 def format_current_weather(weather_dict: dict) -> str:
     '''
-    return a properly formatted string for Alexa to say
+    return a properly formatted string for Alexa to say 
     '''
 
     logger.info(f'The weather data dict is:{weather_dict}')
