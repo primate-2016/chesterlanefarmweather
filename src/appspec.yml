@@ -17,7 +17,6 @@ Resources:
         CurrentVersion: "0.1" # Specify the current version of your Lambda function
         TargetVersion: "0.2" # Specify the version of your Lambda function to deploy
 
-
 # (Optional) In the Hooks section, specify a validation Lambda function to run during 
 # a lifecycle event. Replace "LifeCycleEvent" with BeforeAllowTraffic
 # or AfterAllowTraffic. 
