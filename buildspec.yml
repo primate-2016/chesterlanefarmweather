@@ -102,20 +102,19 @@ artifacts:
   # exclude-paths: excluded paths
   enable-symlinks: yes
   s3-prefix: clf-builds
-  # secondary-artifacts:
-  #   artifactIdentifier:
-  #     files:
-  #       - location
-  #       - location
-  #     name: secondary-artifact-name
-  #     discard-paths: no | yes
-  #     base-directory: location
-  #   artifactIdentifier:
-  #     files:
-  #       - location
-  #       - location
-  #     discard-paths: no | yes
-  #     base-directory: location
+  secondary-artifacts:
+    artifactIdentifier:
+      files:
+        - 'appspec.yml'
+      name: appspec.yml
+      # discard-paths: no | yes
+      base-directory: src
+    # artifactIdentifier:
+    #   files:
+    #     - location
+    #     - location
+    #   discard-paths: no | yes
+    #   base-directory: location
 # cache:
 #   paths:
 #     - path
