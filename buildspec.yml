@@ -40,7 +40,7 @@ phases:
     commands:
       - echo installing python libs
       - pip install -r ./src/requirements.txt
-      - pip install -r ./src/test_requirements.txt
+      - pip install -r ./build_and_test_requirements.txt
     #   - command
     # finally:
     #   - command
