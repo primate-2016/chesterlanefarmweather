@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: A sample SAM template for deploying Lambda functions.
+Description: SAM template to deploy Chester Lane Farm Weather app via CodeDeploy with some stub lifecycle functions
 
 Resources:
   ClfWeatherFunction:
@@ -36,8 +36,9 @@ Resources:
 #             Action: 
 #               - "lambda:InvokeFunction"
 #             Resource: '*'
-      DeploymentPreference:
-# Specifies the deployment configuration      
+
+# This results in CodeDeploy being used - the transform handles it from just this line
+      DeploymentPreference:   
           Type: Linear10PercentEvery1Minute
 # Specifies Lambda functions for deployment lifecycle hooks
           Hooks:
