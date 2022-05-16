@@ -1,0 +1,109 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: A sample SAM template for deploying Lambda functions.
+
+Resources:
+  ClfWeatherFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Architectures: 
+        - arm64
+      CodeUri: src/
+      Handler: weather.handler
+      Runtime: python3.9
+# Instructs your function is published to an alias named "live".      
+      AutoPublishAlias: live
+      Environment:
+        Variables:
+          API_KEY: '{{resolve:ssm:/WU/ApiKey}}'
+          LAT: '{{resolve:ssm:/CLF/Latitude}}'
+          LON: '{{resolve:ssm:/CLF/Longitude}}'
+          STATION_ID: '{{resolve:ssm:/WU/StationId}}'
+      Events: 
+        ClfAlexaSkill:
+          Type: AlexaSkill
+          Properties:
+            SkillId: amzn1.ask.skill.b2fd0745-ec5b-4437-8587-4bb0793f7e6c
+      # turn on basic X-Ray tracing
+      Tracing: Active
+      MemorySize: 128
+      Timeout: 5
+# # Grants this function permission to call lambda:InvokeFunction
+#       Policies:
+#         - Version: "2012-10-17"
+#           Statement: 
+#           - Effect: "Allow"
+#             Action: 
+#               - "lambda:InvokeFunction"
+#             Resource: '*'
+      DeploymentPreference:
+# Specifies the deployment configuration      
+          Type: Linear10PercentEvery1Minute
+# Specifies Lambda functions for deployment lifecycle hooks
+          Hooks:
+            PreTraffic: !Ref LambdaBeforeAllowTraffic
+            PostTraffic: !Ref LambdaAfterAllowTraffic
+            
+# Specifies the BeforeAllowTraffic lifecycle hook Lambda function
+  LambdaBeforeAllowTraffic:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies:
+        - Version: "2012-10-17"
+# Grants this function permission to call codedeploy:PutLifecycleEventHookExecutionStatus        
+          Statement: 
+          - Effect: "Allow"
+            Action: 
+              - "codedeploy:PutLifecycleEventHookExecutionStatus"
+            Resource:
+              !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*'
+        - Version: "2012-10-17"
+# Grants this function permission to call lambda:InvokeFunction        
+          Statement: 
+          - Effect: "Allow"
+            Action: 
+              - "lambda:InvokeFunction"
+            Resource: !Ref ClfWeatherFunction.Version
+      Runtime: python3.9
+      CodeUri: lifecycle_tests/
+      Handler: before_allow_traffic.handler
+# Specifies the name of the Lambda hook function      
+      FunctionName: 'CodeDeployHook_beforeAllowTraffic'
+      DeploymentPreference:
+        Enabled: false
+      Timeout: 5
+      Environment:
+        Variables:
+          NEW_VERSION: !Ref ClfWeatherFunction.Version
+          
+# Specifies the AfterAllowTraffic lifecycle hook Lambda function
+  LambdaAfterAllowTraffic:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies:
+        - Version: "2012-10-17"
+          Statement: 
+# Grants this function permission to call codedeploy:PutLifecycleEventHookExecutionStatus         
+          - Effect: "Allow"
+            Action: 
+              - "codedeploy:PutLifecycleEventHookExecutionStatus"
+            Resource:
+              !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*'
+        - Version: "2012-10-17"
+          Statement: 
+# Grants this function permission to call lambda:InvokeFunction          
+          - Effect: "Allow"
+            Action: 
+              - "lambda:InvokeFunction"
+            Resource: !Ref ClfWeatherFunction.Version
+      Runtime: python3.9
+      CodeUri: lifecycle_tests/
+      Handler: after_allow_traffic.handler
+# Specifies the name of the Lambda hook function      
+      FunctionName: 'CodeDeployHook_afterAllowTraffic'
+      DeploymentPreference:
+        Enabled: false
+      Timeout: 5
+      Environment:
+        Variables:
+          NEW_VERSION: !Ref ClfWeatherFunction.Version
