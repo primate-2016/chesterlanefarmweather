@@ -96,13 +96,13 @@ reports:
 artifacts:
   files:
     - '.aws-sam/**/*'
-  name: clf-weather-package-$(date +%Y-%m-%d)
+  # name: clf-weather-package-$(date +%Y-%m-%d)
   # artifact package type (e.g. none or zip is specified in build project)
   discard-paths: no
   base-directory: '.'
   # exclude-paths: excluded paths
   enable-symlinks: yes
-  s3-prefix: clf-builds
+  # s3-prefix: clf-builds
   # secondary-artifacts:
   #   artifactIdentifier:
   #     files:
