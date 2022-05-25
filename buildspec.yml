@@ -65,7 +65,7 @@ phases:
       - echo getting libs for Lambda package
       - cd ./src && pip install -r requirements.txt -t .
       - echo building SAM package...
-      - sam build
+      - cd ../ && sam build
       - echo validating SAM template...
       - sam validate
     # finally:
