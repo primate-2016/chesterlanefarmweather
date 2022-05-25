@@ -95,8 +95,8 @@ reports:
     base-directory: 'reports'
 artifacts:
   files:
-    - '.aws-sam/*'
-  name: clf-weather-package-$(date +%Y-%m-%d).zip
+    - '.aws-sam/**/*'
+  name: clf-weather-package-$(date +%Y-%m-%d)
   # artifact package type (e.g. none or zip is specified in build project)
   discard-paths: no
   base-directory: '.'
