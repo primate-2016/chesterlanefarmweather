@@ -68,6 +68,8 @@ phases:
       - cd ../ && sam build
       - echo validating SAM template...
       - sam validate
+      - echo packaging SAM template ready for deployment
+      - sam package --s3-bucket cf-templates-1lk9yb4hhccfb-eu-west-1 --output-template-file .aws-sam/build/packaged.yaml
     # finally:
     #   - command
     #   - command
@@ -75,8 +77,8 @@ phases:
     # run-as: Linux-user-name
     on-failure: ABORT
     commands:
-      - sam build
-      - sam validate
+      # - sam build
+      # - sam validate
 #     finally:
 #       - command
 #       - command
