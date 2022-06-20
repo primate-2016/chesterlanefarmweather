@@ -11,6 +11,7 @@ station_id = os.getenv('STATION_ID')
 lat = os.getenv('LAT')
 lon = os.getenv('LON')
 
+
 def get_current_weather() -> dict:
     '''
     Return a dict of the current weather conditions

@@ -37,7 +37,8 @@ Resources:
 #               - "lambda:InvokeFunction"
 #             Resource: '*'
 
-# This results in CodeDeploy being used - the transform handles it from just this line
+# This results in CodeDeploy being used - the transform handles it from just this line and generates the 
+# CodeDeploy AppSpec
       DeploymentPreference:   
           Type: Linear10PercentEvery1Minute
 # Specifies Lambda functions for deployment lifecycle hooks
