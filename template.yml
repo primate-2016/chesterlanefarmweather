@@ -39,12 +39,12 @@ Resources:
 
 # This results in CodeDeploy being used - the transform handles it from just this line and generates the 
 # CodeDeploy AppSpec
-      DeploymentPreference:   
-          Type: Linear10PercentEvery1Minute
+      # DeploymentPreference:   
+      #     Type: Linear10PercentEvery1Minute
 # Specifies Lambda functions for deployment lifecycle hooks
-          Hooks:
-            PreTraffic: !Ref LambdaBeforeAllowTraffic
-            PostTraffic: !Ref LambdaAfterAllowTraffic
+          # Hooks:
+          #   PreTraffic: !Ref LambdaBeforeAllowTraffic
+          #   PostTraffic: !Ref LambdaAfterAllowTraffic
             
 # Specifies the BeforeAllowTraffic lifecycle hook Lambda function
   LambdaBeforeAllowTraffic:
